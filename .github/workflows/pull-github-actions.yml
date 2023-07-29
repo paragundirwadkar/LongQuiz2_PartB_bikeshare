@@ -1,0 +1,18 @@
+name: PullDockerImage
+on:
+  workflow_run:
+    workflows: ["PushDockerImage"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: self-hosted
+    
+    steps: 
+      - name: Login to Docker hub
+        run: sudo docker login -u paragundirwadkar -p 9890041098 
+      - name: Pull Imaghe from Docker hub
+        run: sudo docker pull paragundirwadkar/bikeshare-fastapi-bigquiz2:latest
+      - name: run docker image
+        run: sudo docker run -it -d -p 8001:8001 --name=bikesharebigquiz2 paragundirwadkar/bikeshare-fastapi-bigquiz2:latest     
